@@ -16,5 +16,3 @@ ok_button = Button('ok', 100, 100)
 ok_button.print_status()
 ok_button.hide()
 ok_button.print_status()
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QApplication
