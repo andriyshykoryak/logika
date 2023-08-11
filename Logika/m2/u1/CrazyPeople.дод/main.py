@@ -6,10 +6,10 @@ app = QApplication([])
 main_window = QWidget()
 
 
-text = QLabel('Натисни, щоб дізнатись переможця')
+text = QLabel('Натисни, щоб взяти участь')
 winner = QLabel('?')
 winner1 = QLabel('?')
-button = QPushButton('Згенерувати')
+button = QPushButton('Випробуй удачу')
 
 line = QVBoxLayout()
 line.addWidget(text,alignment=Qt.AlignCenter)
@@ -18,8 +18,8 @@ line.addWidget(winner1,alignment=Qt.AlignCenter)
 line.addWidget(button,alignment=Qt.AlignCenter)
 
 def win():
-    ran = randint(1,100)
-    ran1 = randint(1,100)
+    ran = randint(1,10)
+    ran1 = randint(1,10)
     if ran == ran1:
         asi = QLabel('Ти виграв')
         line.addWidget(asi,alignment=Qt.AlignCenter)
