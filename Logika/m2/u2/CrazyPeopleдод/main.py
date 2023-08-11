@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QApplication,QWidget, QLabel,QPushButton, QVBoxLayou
 
 app = QApplication([])
 main_window = QWidget()
-
+main_window.setWindowTitle('Crazy people опитування')
 
 question = QLabel('Як звали першого ютуб-блогера, який набрав 100000000 підписників?')
 ans1 = QRadioButton('TheBrianMaps')
@@ -39,10 +39,12 @@ line.addLayout(line_gorisontal2)
 line.addLayout(line_gorisontal3)
 def win():
     victory_window = QMessageBox()
+    victory_window.setWindowTitle('Виграш')
     victory_window.setText('Ви виграли зустріч з творцями каналу!')
     victory_window.exec_()
 def lose():
     lose_window = QMessageBox()
+    lose_window.setWindowTitle('Програш')
     lose_window.setText('Пощастить іншим разом!')
     lose_window.exec_()
 
