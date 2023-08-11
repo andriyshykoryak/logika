@@ -16,17 +16,21 @@ line = QVBoxLayout()
 line_gorisontal1 = QHBoxLayout()
 line_gorisontal2 = QHBoxLayout()
 line_gorisontal3 = QHBoxLayout()
+line_gorisontal4 = QHBoxLayout()
+line_gorisontal5 = QHBoxLayout()
 line_gorisontal1.addWidget(question,alignment=Qt.AlignCenter)
 
 
 line_gorisontal2.addWidget(ans1,alignment=Qt.AlignCenter)
 line_gorisontal2.addWidget(ans2,alignment=Qt.AlignCenter)
+
 line_gorisontal2.addWidget(ans5,alignment=Qt.AlignCenter)
 
 
 line_gorisontal3.addWidget(ans3,alignment=Qt.AlignCenter)
 line_gorisontal3.addWidget(ans4,alignment=Qt.AlignCenter)
-line_gorisontal2.addWidget(ans6,alignment=Qt.AlignCenter)
+
+line_gorisontal3.addWidget(ans6,alignment=Qt.AlignCenter)
 
 
 
