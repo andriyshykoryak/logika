@@ -1,9 +1,13 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication,QWidget, QLabel,QPushButton, QVBoxLayout,QRadioButton,QMessageBox,QHBoxLayout
+from PyQt5.QtGui import QPixmap,QIcon
 
 app = QApplication([])
 main_window = QWidget()
 main_window.setWindowTitle('Crazy people опитування')
+pixmap = QPixmap('icon.png')
+main_window.setWindowIcon(QIcon(pixmap))
+
 
 question = QLabel('Як звали першого ютуб-блогера, який набрав 100000000 підписників?')
 ans1 = QRadioButton('TheBrianMaps')
@@ -39,21 +43,31 @@ line.addLayout(line_gorisontal2)
 line.addLayout(line_gorisontal3)
 def win():
     victory_window = QMessageBox()
+    
+    victory_window.setStyleSheet('background-color: green;font-size:30px;color: white;')
     victory_window.setWindowTitle('Виграш')
     victory_window.setText('Ви виграли зустріч з творцями каналу!')
     victory_window.exec_()
 def lose():
     lose_window = QMessageBox()
+    lose_window.setStyleSheet('background-color: red;font-size:30px;color: white;')
     lose_window.setWindowTitle('Програш')
     lose_window.setText('Пощастить іншим разом!')
     lose_window.exec_()
 
+main_window.setStyleSheet('background-color: red;font-size:20px;color: white;')
 ans1.clicked.connect(lose)
+ans1.setStyleSheet('background-color: green;font-size:20px;')
 ans2.clicked.connect(lose)
+ans2.setStyleSheet('background-color: blue;font-size:20px;')
 ans3.clicked.connect(lose)
+ans3.setStyleSheet('background-color: orange;font-size:20px;')
 ans4.clicked.connect(win)
+ans4.setStyleSheet('background-color: gray;font-size:20px;')
 ans5.clicked.connect(lose)
+ans5.setStyleSheet('background-color: purple;font-size:20px;')
 ans6.clicked.connect(lose)
+ans6.setStyleSheet('background-color: brown;font-size:20px;')
 main_window.setLayout(line)
 
 main_window.show()
