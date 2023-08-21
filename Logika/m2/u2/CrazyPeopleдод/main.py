@@ -44,7 +44,7 @@ line.addLayout(line_gorisontal3)
 def win():
     victory_window = QMessageBox()
     pixmap = QPixmap('m2\\u2\\CrazyPeopleдод\\icon.png')
-    main_window.setWindowIcon(QIcon(pixmap))
+    victory_window.setWindowIcon(QIcon(pixmap))
     victory_window.setStyleSheet('background-color: green;font-size:30px;color: white;')
     victory_window.setWindowTitle('Виграш')
     victory_window.setText('Ви виграли зустріч з творцями каналу!')
@@ -53,7 +53,7 @@ def lose():
 
     lose_window = QMessageBox()
     pixmap = QPixmap('m2\\u2\\CrazyPeopleдод\\icon.png')
-    main_window.setWindowIcon(QIcon(pixmap))
+    lose_window.setWindowIcon(QIcon(pixmap))
     lose_window.setStyleSheet('background-color: red;font-size:30px;color: white;')
     lose_window.setWindowTitle('Програш')
     lose_window.setText('Пощастить іншим разом!')

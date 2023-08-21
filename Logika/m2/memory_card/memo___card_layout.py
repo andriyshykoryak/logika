@@ -26,11 +26,15 @@ app = QApplication([])
 btn_OK = QPushButton('Відповісти')
 btn_sleep = QPushButton('Відпочити')
 btn_menu = QPushButton('Меню')
+btn_OK.setStyleSheet('background-color:red;')
 
+btn_menu.setStyleSheet('background-color:orange')
+btn_sleep.setStyleSheet('background-color:green')
 
 question = QLabel('')
 
 box_minutes = QSpinBox()
+box_minutes.setStyleSheet('background-color:green')
 
 box_minutes.setValue(5)
 
