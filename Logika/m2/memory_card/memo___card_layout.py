@@ -70,7 +70,7 @@ layout_ans1.addLayout(layout_ans3)
 radio_group_box.setLayout(layout_ans1)
 
 AnsGroupBox = QGroupBox()
-lb_question = QLabel('')
+
 lb_result = QLabel('')
 lb_correct = QLabel('')
 layout_res = QVBoxLayout()
@@ -95,7 +95,7 @@ layout_line1.addWidget(btn_sleep)
 layout_line1.addWidget(box_minutes)
 layout_line1.addWidget(QLabel('хвилин'))
 
-layout_line2.addWidget(lb_question,alignment=(Qt.AlignHCenter|Qt.AlignVCenter))
+layout_line2.addWidget(question,alignment=(Qt.AlignHCenter|Qt.AlignVCenter))
 
 layout_line3.addWidget(radio_group_box)
 layout_line3.addWidget(AnsGroupBox)
@@ -112,12 +112,20 @@ layout_card.addLayout(layout_line4)
 
 
 def show_result():
-    ''' показати панель відповідей '''
-    pass
-
+    radio_group_box.hide()
+    AnsGroupBox.show()
+    btn_OK.setText('Наступне питання')
+    
 def show_question():
-    ''' показати панель запитань '''
-    pass
+    radio_group_box.show()
+    AnsGroupBox.hide()
+    btn_OK.setText('Відповісти')
+    radiogrup.setExclusive(False)
+    ans1.setChecked(False)
+    ans2.setChecked(False)
+    ans3.setChecked(False)
+    ans4.setChecked(False)
+    radiogrup.setExclusive(True)
 
 
 
