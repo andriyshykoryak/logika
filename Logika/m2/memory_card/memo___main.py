@@ -1,5 +1,5 @@
 from PyQt5.QtCore import QTimer
-from PyQt5.QtWidgets import QWidget, QApplication
+from PyQt5.QtWidgets import QWidget, QApplication ,QMessageBox
 from random import shuffle  # перемішуватимемо відповіді у картці питання
 
 from memo___card_layout import *
@@ -10,7 +10,7 @@ from memo___data import *
 main_width, main_height = 1000, 450  # початкові розміри головного вікна
 card_width, card_height = 600, 500  # початкові розміри вікна "картка"
 time_unit = 60000
-
+time_unit_for_seconds = 10000
 
 radio_list = [ans1, ans2, ans3, ans4]
 
@@ -58,12 +58,31 @@ def set_main():
 def sleep_card():
     ''' картка ховається на час, зазначений у таймері'''
     win_card.hide()
+  
     timer.setInterval(time_unit * box_minutes.value())
+
     timer.start()
+    
+   
+def show_rest_window():
+    timer_window.show()
+    sleep_card()
+    
+def finish_rest():
+    timer_window.hide()
+    
+
+    timer.stop()
+    win_card.show()
+
+btn_sleep.clicked.connect(show_rest_window)
+endsllep.clicked.connect(finish_rest)
+
 
 
 def show_card():
     ''' показує вікно (за таймером), таймер зупиняється'''
+    timer_window.hide()
     win_card.show()
     timer.stop()
 
@@ -141,10 +160,16 @@ def connects():
     timer.timeout.connect(show_card)
     btn_sleep.clicked.connect(sleep_card)
 
-
+win_card.setStyleSheet('background-color:purple;font-size:20px;')
+win_main.setStyleSheet('background-color:blue;font-size:20px;')
+pixmap = QPixmap('m2\\memory_card\\logo.png')
+win_main.setWindowIcon(QIcon(pixmap))
+pixmap = QPixmap('m2\\memory_card\\logo.png')
+win_main.setWindowIcon(QIcon(pixmap))
 testlist()
 set_card()
 set_main()
 connects()
 win_main.show()
+
 app.exec_()

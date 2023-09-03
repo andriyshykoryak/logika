@@ -6,7 +6,9 @@ from PyQt5.QtWidgets import (
         QLineEdit, QFormLayout,
         QHBoxLayout, QVBoxLayout, 
         QGroupBox, QButtonGroup, QRadioButton,  
-        QPushButton, QLabel, QSpinBox)
+        QPushButton, QLabel, QSpinBox,QMessageBox,)
+from PyQt5.QtGui import QPixmap,QIcon
+
 app = QApplication([])
 
 # віджети, які треба буде розмістити:
@@ -23,17 +25,45 @@ app = QApplication([])
 # Розмісти весь вміст в лейаути. Найбільшим лейаутом буде layout_card
 
 # Результат роботи цього модуля: віджети поміщені всередину layout_card, який можна призначити вікну.
-btn_OK = QPushButton('Відповісти')
-btn_sleep = QPushButton('Відпочити')
-btn_menu = QPushButton('Меню')
-btn_OK.setStyleSheet('background-color:red;')
 
-btn_menu.setStyleSheet('background-color:orange')
-btn_sleep.setStyleSheet('background-color:green')
+
+btn_OK = QPushButton('Відповісти')
+btn_OK.setStyleSheet('''
+    QPushButton {
+        background-color: red;
+    }
+    QPushButton:hover {
+        background-color: darkred;
+    }
+''')
+
+
+
+btn_sleep = QPushButton('Відпочити')
+btn_sleep.setStyleSheet('''
+    QPushButton {
+        background-color: green;
+    }
+    QPushButton:hover {
+        background-color: darkgreen;
+    }
+''')
+
+
+btn_menu = QPushButton('Меню')
+btn_menu.setStyleSheet( '''
+    QPushButton {
+        background-color: orange;
+    }
+    QPushButton:hover {
+        background-color: darkorange;
+    }
+''')
 
 question = QLabel('')
 
 box_minutes = QSpinBox()
+
 box_minutes.setStyleSheet('background-color:green')
 
 box_minutes.setValue(5)
@@ -108,6 +138,31 @@ layout_card.addLayout(layout_line1)
 layout_card.addLayout(layout_line2)
 layout_card.addLayout(layout_line3)
 layout_card.addLayout(layout_line4)
+sleep_button = QPushButton('Закінчити відпочинок')
+sleep_layout = QVBoxLayout()
+sleep_layout.addWidget(sleep_button)
+
+timer_window = QWidget()
+timer_window.setWindowTitle('Відпочинок')
+pixmap = QPixmap('m2\\memory_card\\logo.png')
+timer_window.setWindowIcon(QIcon(pixmap))
+timer_window.setStyleSheet('background-color:yellow;font-size:20px;')
+timer_label = QLabel('Відпочинок')
+endsllep = QPushButton('Завершити відпочинок')
+endsllep.setStyleSheet('''
+    QPushButton {
+        background-color: green;
+    }
+    QPushButton:hover {
+        background-color: darkgreen;
+    }
+''')
+
+timer_layout = QVBoxLayout()
+timer_layout.addWidget(timer_label)
+timer_layout.addWidget(endsllep)
+timer_window.setLayout(timer_layout)
+
 
 
 
@@ -126,7 +181,6 @@ def show_question():
     ans3.setChecked(False)
     ans4.setChecked(False)
     radiogrup.setExclusive(True)
-
 
 
 

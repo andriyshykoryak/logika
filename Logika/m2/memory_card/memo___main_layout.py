@@ -16,8 +16,32 @@ list_questions = QListView()
 wdgt_edit = QWidget()
 wdgt_edit.setLayout(layout_form)
 btn_add = QPushButton('Нове питання')
+btn_add.setStyleSheet('''
+    QPushButton {
+        background-color: white;
+    }
+    QPushButton:hover {
+        background-color: grey;
+    }
+''')
 btn_delete = QPushButton('Видалити питання')
-btn_start = QPushButton('Почати питання')
+btn_delete.setStyleSheet('''
+    QPushButton {
+        background-color: yellow;
+    }
+    QPushButton:hover {
+        background-color: darkorange;
+    }
+''')
+btn_start = QPushButton('Почати тренування')
+btn_start.setStyleSheet('''
+    QPushButton {
+        background-color: grey;
+    }
+    QPushButton:hover {
+        background-color: dark;
+    }
+''')
 main_col1 = QVBoxLayout()
 main_col1.addWidget(list_questions)
 main_col1.addWidget(btn_delete)
