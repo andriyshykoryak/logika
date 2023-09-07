@@ -27,13 +27,13 @@ win_card = QWidget()
 # Тестові данні
 def testlist():
 
-    frm = Question('Яблуко', 'apple', 'application', 'pinapple', 'apply')
+    frm = Question('Максимальна висота атмосфери', '11000м', '1100м', '5000м', '25000м')
     questions_listmodel.form_list.append(frm)
     frm = Question('Дім', 'house', 'horse', 'hurry', 'hour')
     questions_listmodel.form_list.append(frm)
-    frm = Question('Мишка', 'mouse', 'mouth', 'muse', 'museum')
+    frm = Question('Найпопулярніша гра в світі', 'Minecraft', 'GTA V', 'Roblox', 'Cs:Go')
     questions_listmodel.form_list.append(frm)
-    frm = Question('Число', 'number', 'digit', 'amount', 'summary')
+    frm = Question('2+2*2', '6', '4', '8', '2')
     questions_listmodel.form_list.append(frm)
 
 # Функції для проведення тесту
@@ -163,7 +163,7 @@ def connects():
 win_card.setStyleSheet('background-color:purple;font-size:20px;')
 win_main.setStyleSheet('background-color:blue;font-size:20px;')
 pixmap = QPixmap('m2\\memory_card\\logo.png')
-win_main.setWindowIcon(QIcon(pixmap))
+win_card.setWindowIcon(QIcon(pixmap))
 pixmap = QPixmap('m2\\memory_card\\logo.png')
 win_main.setWindowIcon(QIcon(pixmap))
 testlist()
