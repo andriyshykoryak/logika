@@ -11,11 +11,12 @@ window = QWidget()
 main_width, main_height = 800, 600  # початкові розміри головного вікна
 
 text_editor = QTextEdit()
-text_editor.setText('Текст')
+text_editor.setPlaceholderText('Введіть текст...')
 
 list_widget_1 = QListWidget()
 list_widget_2 = QListWidget()
 input_dialog = QLineEdit()
+input_dialog.setPlaceholderText('Введіть тег...')
 
 # Створення кнопок
 make_note = QPushButton()
