@@ -66,8 +66,7 @@ layout_notes.addLayout(col2)
 def show_notes():
     key = list_widget_1.selectedItems()[0].text()
     text_editor.setText(notes[key]['текст'])
-    list_widget_2.clear()
-    list_widget_2.addItem(notes[key]['теги'])
+    
 
 list_widget_1.itemClicked.connect(show_notes)
 
@@ -75,6 +74,10 @@ with open('notes.json', 'r', encoding='utf8') as file:
     notes = json.load(file)
 
 list_widget_1.addItems(notes)
+
+
+
+
 
 window.setLayout(layout_notes)
 window.resize(main_width,main_height)
