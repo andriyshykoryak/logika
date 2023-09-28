@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import (
     QTableWidget, QListWidgetItem, QFormLayout, 
     QGroupBox, QButtonGroup, QRadioButton, QSpinBox)
 import json
+import os
 
 app = QApplication([])
 window = QWidget()
@@ -64,12 +65,21 @@ layout_notes.addLayout(col1, stretch=2)
 layout_notes.addLayout(col2)
 
 def show_notes():
+    global key
     key = list_widget_1.selectedItems()[0].text()
     text_editor.setText(notes[key]['текст'])
     list_widget_2.clear()
     list_widget_2.addItems(notes[key]['теги'])
+def delete_notes():
+    if key in notes:
+        del notes[key]
+        list_widget_1.takeItem(list_widget_1.currentRow())
+        text_editor.clear()
+        list_widget_2.clear()
 
 
+
+delete_note.clicked.connect(delete_notes)
 list_widget_1.itemClicked.connect(show_notes)
 
 
