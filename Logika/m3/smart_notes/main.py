@@ -85,7 +85,7 @@ list_widget_1.itemClicked.connect(show_notes)
 
 
 
-with open('notes.json', 'r', encoding='utf8') as file:
+with open('m3\\smart_notes\\notes.json', 'r', encoding='utf8') as file:
     notes = json.load(file)
 
 list_widget_1.addItems(notes)
