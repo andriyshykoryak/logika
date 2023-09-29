@@ -7,6 +7,11 @@ from PyQt5.QtWidgets import (
 import json
 import os
 
+def writeToFile():
+    with open('m3\\smart_notes\\notes.json','w',encoding='utf8') as file:
+        json.dump(notes, file,ensure_ascii=False, sort_keys=True,indent=4)
+
+
 app = QApplication([])
 window = QWidget()
 main_width, main_height = 800, 600  # початкові розміри головного вікна
@@ -67,18 +72,40 @@ layout_notes.addLayout(col2)
 def show_notes():
     global key
     key = list_widget_1.selectedItems()[0].text()
-    text_editor.setText(notes[key]['текст'])
+    
     list_widget_2.clear()
+    
     list_widget_2.addItems(notes[key]['теги'])
 def delete_notes():
-    if key in notes:
-        del notes[key]
-        list_widget_1.takeItem(list_widget_1.currentRow())
-        text_editor.clear()
-        list_widget_2.clear()
+    if list_widget_1.currentItem():
+        if key in notes:
+            notes.pop(key)
+            
+            text_editor.clear()
+            list_widget_2.clear()
+            list_widget_1.clear()
+            list_widget_1.addItems(notes)
+            writeToFile()
+
+def add_notes():
+    note_name,ok = QInputDialog.getText(window,'Додати замітку',"Назва замітки")
+    if note_name and ok:
+        list_widget_1.addItem(note_name)
+        notes[note_name] = {"текст":"","теги":[]}
+    writeToFile()
+
+def save_notes():
+    
+    if list_widget_1.currentItem():
+        key = list_widget_1.currentItem().text()
+        notes[key]['текст'] = text_editor.toPlainText()
+        writeToFile()
 
 
 
+
+save_note.clicked.connect(save_notes)
+make_note.clicked.connect(add_notes)
 delete_note.clicked.connect(delete_notes)
 list_widget_1.itemClicked.connect(show_notes)
 
