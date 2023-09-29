@@ -74,6 +74,7 @@ def show_notes():
     key = list_widget_1.selectedItems()[0].text()
     
     list_widget_2.clear()
+    text_editor.setText(notes[key]['текст'])
     
     list_widget_2.addItems(notes[key]['теги'])
 def delete_notes():
