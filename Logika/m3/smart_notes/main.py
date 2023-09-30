@@ -102,15 +102,22 @@ def save_notes():
         notes[key]['текст'] = text_editor.toPlainText()
         writeToFile()
 def add_tag():
-    tag_name, ok = QInputDialog.getText(window, 'Додати тег', 'Назва тегу')
+    
+    
     if key in notes:
+        tag_name, ok = QInputDialog.getText(window, 'Додати тег', 'Назва тегу')
         if tag_name and ok:
-            list_widget_2.addItem(tag_name)
-            notes[key]["теги"].append(tag_name)
-            writeToFile()
+            list_widget_2.addItem(tag_name)  
+            notes[key]["теги"].append(tag_name)  
+            writeToFile() 
+def delete_notes():
+    pass
+    if list_widget_2.currentItem():
+        del notes[key]["теги"]
+        list_widget_2.takeItem(list_widget_2.currentRow()) 
+    
 
-
-
+unpin_to_note.clicked.connect(delete_notes)
 add_to_note.clicked.connect(add_tag)
 save_note.clicked.connect(save_notes)
 make_note.clicked.connect(add_notes)
