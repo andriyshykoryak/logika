@@ -17,28 +17,96 @@ window = QWidget()
 main_width, main_height = 800, 600  # початкові розміри головного вікна
 
 text_editor = QTextEdit()
+text_editor.setStyleSheet('''
+        background-color:#80FF00;
+
+''')
 text_editor.setPlaceholderText('Введіть текст...')
 
 list_widget_1 = QListWidget()
+list_widget_1.setStyleSheet('''
+        background-color:#CCFFFF;
+
+
+''')
 list_widget_2 = QListWidget()
+list_widget_2.setStyleSheet('''
+        background-color:#9445B6;
+
+
+''')
+
 input_dialog = QLineEdit()
+input_dialog.setStyleSheet('''
+        background-color:#FF3333;
+
+
+''')
 input_dialog.setPlaceholderText('Введіть тег...')
 
 # Створення кнопок
 make_note = QPushButton()
+make_note.setStyleSheet('''
+    QPushButton {
+        background-color: purple;
+    }
+    QPushButton:hover {
+        background-color: darkpurple;
+    }
+''')
 make_note.setText('Створити замітку')
 delete_note = QPushButton()
+delete_note.setStyleSheet('''
+    QPushButton {
+        background-color: blue;
+    }
+    QPushButton:hover {
+        background-color: darkblue;
+    }
+''')
 delete_note.setText('Видалити замітку')
 save_note = QPushButton()
+save_note.setStyleSheet('''
+    QPushButton {
+        background-color: grey;
+    }
+    QPushButton:hover {
+        background-color: white;
+    }
+''')
 save_note.setText('Зберегти замітку')
 
 
 #створення нижніх кнопок
 add_to_note = QPushButton()
+add_to_note.setStyleSheet('''
+    QPushButton {
+        background-color: white;
+    }
+    QPushButton:hover {
+        background-color: gray;
+    }
+''')
 add_to_note.setText('Додати до замітки')
 unpin_to_note = QPushButton()
+unpin_to_note.setStyleSheet('''
+    QPushButton {
+        background-color: red;
+    }
+    QPushButton:hover {
+        background-color: darkred;
+    }
+''')
 unpin_to_note.setText('Відкріпити від замітки')
 search_for_note = QPushButton()
+search_for_note.setStyleSheet('''
+    QPushButton {
+        background-color: green;
+    }
+    QPushButton:hover {
+        background-color: darkgreen;
+    }
+''')
 search_for_note.setText('Шукати замітки за тегом')
 
 
@@ -102,19 +170,51 @@ def save_notes():
         notes[key]['текст'] = text_editor.toPlainText()
         writeToFile()
 def add_tag():
-    
-    
     if key in notes:
-        global tag_name
         tag_name, ok = QInputDialog.getText(window, 'Додати тег', 'Назва тегу')
         if tag_name and ok:
             list_widget_2.addItem(tag_name)  
             notes[key]["теги"].append(tag_name)  
             writeToFile() 
-
+     
+def delete_tag():
+  
     
+    if key in notes:
+        current_item = list_widget_2.currentItem()
+        if current_item:
+            tag_name = current_item.text()
+            notes[key]["теги"].remove(tag_name)
+            list_widget_2.takeItem(list_widget_2.row(current_item)) 
+            writeToFile()  
+
+def search_note():
+    tag = input_dialog.text()
+    if search_for_note.text() == 'Шукати замітки за тегом':
+            filtered_notes = {}
+            for key in notes:
+                if tag in notes[key]['теги']:
+                    filtered_notes[key] = notes[key]
+            search_for_note.setText('Скинути пошук')
+
+            list_widget_1.clear()
+            list_widget_1.addItems(filtered_notes)
+            list_widget_2.clear()
+            text_editor.clear()
 
 
+    elif search_for_note.text() == 'Скинути пошук':
+            search_for_note.setText('Шукати замітки за тегом')
+            list_widget_1.clear()
+            list_widget_1.addItems(notes)
+            list_widget_2.clear()
+            text_editor.clear()
+            input_dialog.clear()
+        
+
+
+unpin_to_note.clicked.connect(delete_tag)
+search_for_note.clicked.connect(search_note)
 add_to_note.clicked.connect(add_tag)
 save_note.clicked.connect(save_notes)
 make_note.clicked.connect(add_notes)
@@ -133,6 +233,8 @@ list_widget_1.addItems(notes)
 
 
 
+
+window.setStyleSheet('background-color:yellow;font-size:20px')
 window.setLayout(layout_notes)
 window.resize(main_width,main_height)
 window.show()
