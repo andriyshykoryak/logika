@@ -35,7 +35,8 @@ list_widget_2.setStyleSheet('''
 
 
 ''')
-
+text_searcher = QLineEdit()
+text_searcher.setPlaceholderText('Введіть текст...')
 input_dialog = QLineEdit()
 input_dialog.setStyleSheet('''
         background-color:#FF3333;
@@ -78,6 +79,8 @@ save_note.setText('Зберегти замітку')
 
 
 #створення нижніх кнопок
+search_for_text = QPushButton()
+search_for_text.setText('Шукати замітку за текстом')
 add_to_note = QPushButton()
 add_to_note.setStyleSheet('''
     QPushButton {
@@ -130,8 +133,10 @@ col2.addWidget(save_note)
 col2.addWidget(QLabel('Список тегів'))
 col2.addWidget(list_widget_2)
 col2.addWidget(input_dialog)
+col2.addWidget(text_searcher)
 col2.addLayout(row2)
 col2.addWidget(search_for_note)
+col2.addWidget(search_for_text)
 
 layout_notes = QHBoxLayout()
 layout_notes.addLayout(col1, stretch=2)
@@ -210,9 +215,33 @@ def search_note():
             list_widget_2.clear()
             text_editor.clear()
             input_dialog.clear()
-        
+def search_note_for_text():
+    text_to_search = text_searcher.text().strip()
+    if search_for_text.text() == 'Шукати замітку за текстом':
+        filtered_notes = {}
+        for key, note_data in notes.items():
+            if text_to_search in note_data['текст']:
+                filtered_notes[key] = note_data
+        search_for_text.setText('Скинути пошук')
+
+        list_widget_1.clear()
+        list_widget_1.addItems(filtered_notes.keys())
+        list_widget_2.clear()
+        text_editor.clear()
+
+    elif search_for_text.text() == 'Скинути пошук':
+        search_for_text.setText('Шукати замітку за текстом')
+        list_widget_1.clear()
+        list_widget_1.addItems(notes.keys())
+        list_widget_2.clear()
+        text_editor.clear()
+
+search_for_text.clicked.connect(search_note_for_text)
+
+search_for_text.clicked.connect(search_note_for_text)
 
 
+search_for_text.clicked.connect(search_note_for_text)
 unpin_to_note.clicked.connect(delete_tag)
 search_for_note.clicked.connect(search_note)
 add_to_note.clicked.connect(add_tag)
