@@ -3,7 +3,9 @@ from PyQt5.QtWidgets import (
     QApplication, QWidget, QTextEdit, QLabel, 
     QListWidget, QPushButton, QLineEdit, QHBoxLayout, QVBoxLayout, QInputDialog,
     QTableWidget, QListWidgetItem, QFormLayout, 
-    QGroupBox, QButtonGroup, QRadioButton, QSpinBox)
+    QGroupBox, QButtonGroup, QRadioButton, QSpinBox,QFileDialog,QAction )
+from PyQt5.QtGui import QKeySequence
+
 import json
 import os
 
@@ -112,8 +114,23 @@ search_for_note.setStyleSheet('''
 ''')
 search_for_note.setText('Шукати замітки за тегом')
 
+export_as_txt = QPushButton()
+export_as_txt.setText('Конвертувати до txt-формату')
+export_as_txt.setStyleSheet('''
+    QPushButton {
+        background-color: orange;
+    }
+    QPushButton:hover {
+        background-color: darkorange;
+    }
+''')
+action_exit = QAction("Exit", window)
+action_exit.setShortcut(QKeySequence("Ctrl+W"))
 
-
+change_theme_btn = QPushButton()
+change_theme_btn.setText(f'Змінити тему на чорну')
+change_theme_btn1 = QPushButton()
+change_theme_btn1.setText(f'Змінити тему на білу')
 
 row2 = QHBoxLayout()
 row2.addWidget(add_to_note)
@@ -137,10 +154,54 @@ col2.addWidget(text_searcher)
 col2.addLayout(row2)
 col2.addWidget(search_for_note)
 col2.addWidget(search_for_text)
+col2.addWidget(export_as_txt)
+col2.addWidget(change_theme_btn)
+col2.addWidget(change_theme_btn1)
+
+
 
 layout_notes = QHBoxLayout()
 layout_notes.addLayout(col1, stretch=2)
 layout_notes.addLayout(col2)
+
+
+
+def change_theme_to_dark():
+
+    window.setStyleSheet(' background-color:black;color:white;font-size:20px; border: 1px solid white;')
+    text_editor.setStyleSheet('background-color:black;color:white;')
+    list_widget_1.setStyleSheet(' background-color:black;color:white;')
+    list_widget_2.setStyleSheet(' background-color:black;color:white;')
+    unpin_to_note.setStyleSheet(' background-color:black;color:white;')
+    add_to_note.setStyleSheet(' background-color:black;color:white;')
+    make_note.setStyleSheet(' background-color:black;color:white;')
+    delete_note.setStyleSheet(' background-color:black;color:white;')
+    search_for_note.setStyleSheet(' background-color:black;color:white;')
+    search_for_text.setStyleSheet(' background-color:black;color:white;')
+    input_dialog.setStyleSheet(' background-color:black;color:white;')
+    export_as_txt.setStyleSheet(' background-color:black;color:white;')
+    save_note.setStyleSheet(' background-color:black;color:white;')
+
+
+def change_theme_to_light():
+
+    window.setStyleSheet(' background-color:white;color:black;font-size:20px; border: 1px solid black;')
+    text_editor.setStyleSheet('background-color:white;color:black;')
+    list_widget_1.setStyleSheet(' background-color:white;color:black;')
+    list_widget_2.setStyleSheet('background-color:white;color:black;')
+    unpin_to_note.setStyleSheet('background-color:white;color:black;')
+    add_to_note.setStyleSheet('background-color:white;color:black;')
+    make_note.setStyleSheet('background-color:white;color:black;')
+    delete_note.setStyleSheet('background-color:white;color:black;')
+    search_for_note.setStyleSheet('background-color:white;color:black;')
+    search_for_text.setStyleSheet('background-color:white;color:black;')
+    input_dialog.setStyleSheet('background-color:white;color:black;')
+    export_as_txt.setStyleSheet('background-color:white;color:black;')
+    save_note.setStyleSheet('background-color:white;color:black;')
+
+
+def exitt():
+    app.exit()
 
 def show_notes():
     global key
@@ -235,11 +296,35 @@ def search_note_for_text():
         list_widget_1.addItems(notes.keys())
         list_widget_2.clear()
         text_editor.clear()
+def export_to_txt():
+    if list_widget_1.currentItem():
+        key = list_widget_1.currentItem().text()
+        note_data = notes[key]
+        note_text = note_data['текст']
+        file_dialog = QFileDialog()
+        file_path, _ = file_dialog.getSaveFileName(window, "Зберегти як .txt", "", "Text Files (*.txt)")
+
+        if file_path:
+            with open(file_path, 'w', encoding='utf-8') as txt_file:
+                txt_file.write(note_text)
+
+
+
+
+
+
+change_theme_btn.clicked.connect(change_theme_to_dark)
+change_theme_btn1.clicked.connect(change_theme_to_light)
+
+action_exit.triggered.connect(exitt)
+window.addAction(action_exit)
+
+export_as_txt.clicked.connect(export_to_txt)
+        
 
 search_for_text.clicked.connect(search_note_for_text)
 
 search_for_text.clicked.connect(search_note_for_text)
-
 
 search_for_text.clicked.connect(search_note_for_text)
 unpin_to_note.clicked.connect(delete_tag)
