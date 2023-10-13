@@ -113,7 +113,6 @@ search_for_note.setStyleSheet('''
     }
 ''')
 search_for_note.setText('Шукати замітки за тегом')
-
 export_as_txt = QPushButton()
 export_as_txt.setText('Конвертувати до txt-формату')
 export_as_txt.setStyleSheet('''
@@ -128,9 +127,8 @@ action_exit = QAction("Exit", window)
 action_exit.setShortcut(QKeySequence("Ctrl+W"))
 
 change_theme_btn = QPushButton()
-change_theme_btn.setText(f'Змінити тему на чорну')
-change_theme_btn1 = QPushButton()
-change_theme_btn1.setText(f'Змінити тему на білу')
+change_theme_btn.setText('Змінити тему на чорну')
+
 
 row2 = QHBoxLayout()
 row2.addWidget(add_to_note)
@@ -156,7 +154,6 @@ col2.addWidget(search_for_note)
 col2.addWidget(search_for_text)
 col2.addWidget(export_as_txt)
 col2.addWidget(change_theme_btn)
-col2.addWidget(change_theme_btn1)
 
 
 
@@ -166,38 +163,38 @@ layout_notes.addLayout(col2)
 
 
 
-def change_theme_to_dark():
+def change_theme():
+    if change_theme_btn.text() == 'Змінити тему на чорну':
 
-    window.setStyleSheet(' background-color:black;color:white;font-size:20px; border: 1px solid white;')
-    text_editor.setStyleSheet('background-color:black;color:white;')
-    list_widget_1.setStyleSheet(' background-color:black;color:white;')
-    list_widget_2.setStyleSheet(' background-color:black;color:white;')
-    unpin_to_note.setStyleSheet(' background-color:black;color:white;')
-    add_to_note.setStyleSheet(' background-color:black;color:white;')
-    make_note.setStyleSheet(' background-color:black;color:white;')
-    delete_note.setStyleSheet(' background-color:black;color:white;')
-    search_for_note.setStyleSheet(' background-color:black;color:white;')
-    search_for_text.setStyleSheet(' background-color:black;color:white;')
-    input_dialog.setStyleSheet(' background-color:black;color:white;')
-    export_as_txt.setStyleSheet(' background-color:black;color:white;')
-    save_note.setStyleSheet(' background-color:black;color:white;')
-
-
-def change_theme_to_light():
-
-    window.setStyleSheet(' background-color:white;color:black;font-size:20px; border: 1px solid black;')
-    text_editor.setStyleSheet('background-color:white;color:black;')
-    list_widget_1.setStyleSheet(' background-color:white;color:black;')
-    list_widget_2.setStyleSheet('background-color:white;color:black;')
-    unpin_to_note.setStyleSheet('background-color:white;color:black;')
-    add_to_note.setStyleSheet('background-color:white;color:black;')
-    make_note.setStyleSheet('background-color:white;color:black;')
-    delete_note.setStyleSheet('background-color:white;color:black;')
-    search_for_note.setStyleSheet('background-color:white;color:black;')
-    search_for_text.setStyleSheet('background-color:white;color:black;')
-    input_dialog.setStyleSheet('background-color:white;color:black;')
-    export_as_txt.setStyleSheet('background-color:white;color:black;')
-    save_note.setStyleSheet('background-color:white;color:black;')
+        window.setStyleSheet(' background-color:black;color:white;font-size:20px; border: 1px solid white;')
+        text_editor.setStyleSheet('background-color:black;color:white;')
+        list_widget_1.setStyleSheet(' background-color:black;color:white;')
+        list_widget_2.setStyleSheet(' background-color:black;color:white;')
+        unpin_to_note.setStyleSheet(' background-color:black;color:white;')
+        add_to_note.setStyleSheet(' background-color:black;color:white;')
+        make_note.setStyleSheet(' background-color:black;color:white;')
+        delete_note.setStyleSheet(' background-color:black;color:white;')
+        search_for_note.setStyleSheet(' background-color:black;color:white;')
+        search_for_text.setStyleSheet(' background-color:black;color:white;')
+        input_dialog.setStyleSheet(' background-color:black;color:white;')
+        export_as_txt.setStyleSheet(' background-color:black;color:white;')
+        save_note.setStyleSheet(' background-color:black;color:white;')
+        change_theme_btn.setText('Змінити тему на білу')
+    elif change_theme_btn.text() == 'Змінити тему на білу':
+        window.setStyleSheet(' background-color:white;color:black;font-size:20px; border: 1px solid black;')
+        text_editor.setStyleSheet('background-color:white;color:black;')
+        list_widget_1.setStyleSheet(' background-color:white;color:black;')
+        list_widget_2.setStyleSheet('background-color:white;color:black;')
+        unpin_to_note.setStyleSheet('background-color:white;color:black;')
+        add_to_note.setStyleSheet('background-color:white;color:black;')
+        make_note.setStyleSheet('background-color:white;color:black;')
+        delete_note.setStyleSheet('background-color:white;color:black;')
+        search_for_note.setStyleSheet('background-color:white;color:black;')
+        search_for_text.setStyleSheet('background-color:white;color:black;')
+        input_dialog.setStyleSheet('background-color:white;color:black;')
+        export_as_txt.setStyleSheet('background-color:white;color:black;')
+        save_note.setStyleSheet('background-color:white;color:black;')
+        change_theme_btn.setText('Змінити тему на чорну')
 
 
 def exitt():
@@ -313,8 +310,8 @@ def export_to_txt():
 
 
 
-change_theme_btn.clicked.connect(change_theme_to_dark)
-change_theme_btn1.clicked.connect(change_theme_to_light)
+change_theme_btn.clicked.connect(change_theme)
+
 
 action_exit.triggered.connect(exitt)
 window.addAction(action_exit)
