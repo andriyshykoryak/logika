@@ -14,6 +14,12 @@ class ImageEditor():
        left=self.original.transpose(Image.ROTATE_90)
        self.edited.append(left)
        left.save('left_'+self.filename)
+
+    def bw_photo(self):
+       bw = self.original.convert('L')
+       self.edited.append(bw)
+       bw.save('bw_' + self.filename)
 img = ImageEditor('cat.jpeg')
 img.open_file()
 img.do_left()
+img.bw_photo()
