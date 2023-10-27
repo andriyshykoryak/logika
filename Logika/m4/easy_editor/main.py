@@ -4,11 +4,11 @@ from PyQt5.QtWidgets import (
     QApplication, QWidget, QTextEdit, QLabel, 
     QListWidget, QPushButton, QLineEdit, QHBoxLayout, QVBoxLayout, QInputDialog,
     QTableWidget, QListWidgetItem, QFormLayout, 
-    QGroupBox, QButtonGroup, QRadioButton, QSpinBox,QFileDialog,QAction )
+    QGroupBox, QButtonGroup, QRadioButton, QSpinBox,QFileDialog,QAction)
 from PyQt5.QtGui import QKeySequence
 from PIL import Image, ImageFilter
 
-from PIL import Image, ImageFilter
+from PyQt5.QtGui import QPixmap,QIcon
 app = QApplication([])
 window = QWidget()
 folder_btn = QPushButton('Папка')
@@ -119,9 +119,7 @@ vertical_2.addLayout(horisontal_1)
 horisontal_2.addLayout(vertical_1,1)
 horisontal_2.addLayout(vertical_2,4)
 
-workdir = QFileDialog.getExistingDirectory()
 
-files_and_folders = os.listdir(workdir)
 def filter(files):
     result = []
     ext = ['png', 'jpg', 'jpeg', 'gif', 'jfif', 'svg']
@@ -131,9 +129,46 @@ def filter(files):
 
     return result
 
+def show_files():
+    global workdir
+    workdir = QFileDialog.getExistingDirectory()
+
+    files_and_folders = os.listdir(workdir)
+    filtered_img = filter(files_and_folders)
+    lst_photos.clear()
+    lst_photos.addItems(filtered_img)
 
 
-print(filter(files_and_folders))
+class ImageProcessor():
+    def __init__(self):
+        self.filename = None
+        self.original = None
+        self.save_dir = 'Modifaed/'
+    def load_img(self,filename):
+        self.filename = filename
+        full_path = os.path.join(workdir,filename)
+        self.original = Image.open(full_path)
+
+    def show_img(self,path):
+        photo.hide()
+
+        pixmap = QPixmap(path)
+        w,h = photo.width(), photo.height()
+        pixmapimage = pixmap.scaled(w,h,Qt.KeepAspectRatio)
+
+
+        photo.setPixmap(pixmapimage)
+        photo.show() 
+def choosenItem():
+    filename=lst_photos.currentItem().text()
+    workimage.load_img(filename)
+    full_path = os.path.join(workdir,filename)
+    workimage.show_img(full_path)
+
+workimage = ImageProcessor()
+    
+lst_photos.itemClicked.connect(choosenItem)    
+folder_btn.clicked.connect(show_files)
 
 
         
