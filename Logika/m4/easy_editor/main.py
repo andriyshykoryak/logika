@@ -143,7 +143,7 @@ class ImageProcessor():
     def __init__(self):
         self.filename = None
         self.original = None
-        self.save_dir = 'Modifaed/'
+        self.save_dir = 'Modified/'
     def load_img(self,filename):
         self.filename = filename
         full_path = os.path.join(workdir,filename)
@@ -159,6 +159,32 @@ class ImageProcessor():
 
         photo.setPixmap(pixmapimage)
         photo.show() 
+    def saveAndShowImage(self):
+        path = os.path.join(workdir,self.save_dir)
+
+        if not (os.path.exists(path) or os.path.isdir(path)):
+            os.mkdir(path)
+        image_path = os.path.join(path,self.filename)
+        self.original.save(image_path)
+        self.show_img(image_path)
+
+    def do_bw(self):
+        self.original = self.original.convert("L")
+        self.saveAndShowImage()
+    def do_left(self):
+        self.original = self.original.transpose(Image.ROTATE_90)
+        self.saveAndShowImage()
+    def do_right(self):
+        self.original = self.original.transpose(Image.ROTATE_270)
+        self.saveAndShowImage()
+    def do_flip(self):
+        self.original = self.original.transpose(Image.FLIP_LEFT_RIGHT)
+        self.saveAndShowImage()
+    def do_sahp(self):
+        self.original = self.original.filter(ImageFilter.SHARPEN)
+        self.saveAndShowImage()
+        
+
 def choosenItem():
     filename=lst_photos.currentItem().text()
     workimage.load_img(filename)
@@ -169,6 +195,12 @@ workimage = ImageProcessor()
     
 lst_photos.itemClicked.connect(choosenItem)    
 folder_btn.clicked.connect(show_files)
+
+color_btn.clicked.connect(workimage.do_bw)
+left_btn.clicked.connect(workimage.do_left)
+right_btn.clicked.connect(workimage.do_right)
+mirrow_btn.clicked.connect(workimage.do_flip)
+sharpness_btn.clicked.connect(workimage.do_sahp)
 
 
         
