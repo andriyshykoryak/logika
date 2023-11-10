@@ -78,7 +78,6 @@ folder_btn.setStyleSheet('''
 ''')
 lst_photos.setStyleSheet('''
     background-color:purple
-
 ''')
 
 window.setStyleSheet('''
@@ -87,14 +86,7 @@ window.setStyleSheet('''
     font-size:20px;
     border: 1px solid blue;
     background-color:cyan;
-    
-
-
-
-
 ''')
-
-
 vertical_1 = QVBoxLayout()
 horisontal_1 = QHBoxLayout()
 vertical_2 = QVBoxLayout()
@@ -201,15 +193,6 @@ left_btn.clicked.connect(workimage.do_left)
 right_btn.clicked.connect(workimage.do_right)
 mirrow_btn.clicked.connect(workimage.do_flip)
 sharpness_btn.clicked.connect(workimage.do_sahp)
-
-
-        
-
-
-
-
-
-
 
 window.resize(600,550)
 window.setLayout(horisontal_2)
