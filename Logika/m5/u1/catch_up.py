@@ -48,7 +48,7 @@ while is_runnig:
         y2 -= SPEED
     if key_pressed[K_s] and y2<405:
         y2 += SPEED
-    
+
     
 
 
