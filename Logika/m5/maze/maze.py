@@ -1,4 +1,5 @@
 #створи гру "Лабіринт"!
+from typing import Any
 from pygame import *
 
 from pygame.transform import scale, flip
@@ -14,12 +15,31 @@ class GameSprite(sprite.Sprite):
         self.rect.y = player_y
     def reset(self):
         window.blit(self.image , (self.rect.x,self.rect.y))
+class Player(GameSprite):
+    def update(self):
+        keys_pressed = key.get_pressed()
 
+        if keys_pressed[K_UP] and self.rect.y > 5:
+            self.rect.y -= self.speed
+        if keys_pressed[K_DOWN] and self.rect.y < 640:
+            self.rect.y += self.speed
+         
+        if keys_pressed[K_RIGHT] and self.rect.x < 940:
+            self.rect.x += self.speed
+        if keys_pressed[K_LEFT] and self.rect.x > 1:
+            self.rect.x -= self.speed
+class Enemy(GameSprite):
+    direction = 'left'
+    def update(self):
+        if self.direction == 'left':
+            self.rect.x -= self.speed
 
-
-
-
-
+        else:
+            self.rect.x += self.speed
+        if self.rect.x <=700:
+            self.direction = 'right'
+        elif self.rect.x >= win_width - 80:
+            self.direction = 'left'
 
 win_width =1000
 win_height = 700
@@ -28,9 +48,9 @@ FPS = 60
 window = display.set_mode((win_width,win_height))
 background = transform.scale(image.load('m5\\maze\\background.jpg'),(win_width,win_height))
 
-player = GameSprite('m5\\maze\\hero.png',15,win_height-80,5)
-cyborg = GameSprite('m5\\maze\\cyborg.png',win_width-100,win_height-250,2)
-
+player = Player('m5\\maze\\hero.png',15,win_height-80,5)
+cyborg = Enemy('m5\\maze\\cyborg.png',win_width-65,win_height-250,2)
+final  = GameSprite('m5\\maze\\treasure.png',win_width-120,win_height-80,0)
 
 
 
@@ -38,20 +58,23 @@ cyborg = GameSprite('m5\\maze\\cyborg.png',win_width-100,win_height-250,2)
 
 
 game = True
-
+finish = False
 mixer.init()
 mixer.music.load('m5\\maze\\jungles.ogg')
 mixer.music.play()
 
 while game:
-    window.blit(background,(0,0))
-    player.reset()
-    cyborg.reset()
     for e in event.get():
         if e.type == QUIT:
             game = False
+    if not finish:
 
+        window.blit(background,(0,0))
+        player.reset()
+        cyborg.reset()
+        final.reset()
 
-
+        player.update()
+        cyborg.update()
     display.update()
     clock.tick(FPS)
