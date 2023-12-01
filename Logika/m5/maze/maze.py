@@ -1,6 +1,7 @@
 #створи гру "Лабіринт"!
 from typing import Any
 from pygame import *
+from pygame.sprite import *
 
 from pygame.transform import scale, flip
 from pygame.image import load
@@ -40,20 +41,48 @@ class Enemy(GameSprite):
             self.direction = 'right'
         elif self.rect.x >= win_width - 80:
             self.direction = 'left'
+class Wall(sprite.Sprite):
+    def __init__(self, wall_x,wall_y,wall_width,wall_height):
+        super().__init__()
+        self.width = wall_width
+        self.height = wall_height
+        self.image=Surface((self.width,self.height))
+        self.image.fill((253,255,222))
+        self.rect = self.image.get_rect()
+        self.rect.x = wall_x
+        self.rect.y = wall_y
+    def reset(self):
+        window.blit(self.image , (self.rect.x,self.rect.y))
+    
+
+
+
 
 win_width =1000
 win_height = 700
 clock = time.Clock()
 FPS = 60
+
+font.init()
+ft = font.Font(None,70)
+win = ft.render('You win',True,(252,45,1))
+lose = ft.render('You lose',True,(0,255,0))
+
 window = display.set_mode((win_width,win_height))
 background = transform.scale(image.load('m5\\maze\\background.jpg'),(win_width,win_height))
 
 player = Player('m5\\maze\\hero.png',15,win_height-80,5)
 cyborg = Enemy('m5\\maze\\cyborg.png',win_width-65,win_height-250,2)
 final  = GameSprite('m5\\maze\\treasure.png',win_width-120,win_height-80,0)
+wall1 = Wall(win_width-850,win_height-400,25,250)
+wall2 = Wall(win_width-850,win_height-400,250,25)
+wall3 = Wall(win_width-625,win_height-650,25,250)
 
 
 
+
+
+walls = [wall1,wall2,wall3]
 
 
 
@@ -62,7 +91,8 @@ finish = False
 mixer.init()
 mixer.music.load('m5\\maze\\jungles.ogg')
 mixer.music.play()
-
+money=mixer.Sound('m5\\maze\\money.ogg')
+kick = mixer.Sound('m5\\maze\\kick.ogg') 
 while game:
     for e in event.get():
         if e.type == QUIT:
@@ -73,8 +103,30 @@ while game:
         player.reset()
         cyborg.reset()
         final.reset()
+        for w in walls:
+            w.reset()
+            if sprite.collide_rect(player,w):
+                # finish = True
+                kick.play()
+                window.blit(lose,(500,350))
+                player.rect.x -=20
+                
+                
+
+        if sprite.collide_rect(player,final):
+            finish = True
+            window.blit(win,(500,350))
+            money.play()
+        if sprite.collide_rect(player,cyborg):
+            finish = True
+            window.blit(lose,(500,350))
+            kick.play()
+            
+            
+
 
         player.update()
         cyborg.update()
+    
     display.update()
     clock.tick(FPS)
