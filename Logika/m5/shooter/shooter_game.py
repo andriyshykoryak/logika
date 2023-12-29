@@ -140,9 +140,35 @@ while game:
             score+=1
             enemy = Enemy('m5\\shooter\\ufo.png',randint(0,win_width  - 100),0,100,80,randint(1,4))  
             monsters.add(enemy)
+        if score == 10:
+            finish = True
+            txt_win_game = font3.render('You win',True,(24,156,155))
+            window.blit(txt_win_game,(250,500))
+    else:
+        ammo=15
+        finish = False
+        score = 0
+        lost = 0
+
+
+        for m in monsters:
+            m.kill()
+        for a in asteroids:
+            a.kill()
+        for b in bullets:
+            b.kill()
+        for i in range(5):
+            enemy = Enemy('m5\\shooter\\ufo.png',randint(0,win_width  - 100),0,100,80,randint(1,4))  
+            monsters.add(enemy)
+        for i in range(5):
+            asteroid = Enemy('m5\\shooter\\asteroid.png',randint(0,win_height),0,100,80,randint(1,4))
+            asteroids.add(asteroid)
+        
+        
+        time.delay(3000)  
 
         
-            
+
 
     display.update()
     clock.tick(FPS)
