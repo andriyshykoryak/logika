@@ -22,6 +22,7 @@ class GameSprite(sprite.Sprite):
         window.blit(self.image , (self.rect.x,self.rect.y))
 class Player(GameSprite):
     def update(self):
+        global keys_pressed
         keys_pressed = key.get_pressed()         
         if keys_pressed[K_RIGHT] and self.rect.x < win_width - self.width:
             self.rect.x += self.speed
@@ -30,6 +31,8 @@ class Player(GameSprite):
     def fire(self):
         bullet = Bullet('m5\\shooter\\bullet.png',self.rect.centerx,self.rect.top,15,20,10)
         bullets.add(bullet)
+        if keys_pressed[K_w]:
+            self.fire()
 class Enemy(GameSprite):
     def update(self):
         self.rect.y += self.speed
@@ -43,8 +46,10 @@ class Bullet(GameSprite):
         self.rect.y -= self.speed
         if self.rect.y <0 :
             self.kill()
-        
-
+        monsters_hit = sprite.spritecollide(self,monsters,True)
+        if monsters_hit:
+            global score
+            score = score + 1
 
 win_width,win_height = 700,700
 window = display.set_mode((win_width,win_height))
@@ -73,8 +78,9 @@ mixer.music.play()
 font.init()
 font1 = font.SysFont('Arial',36)
 font2 = font.SysFont('Arial',36)
+font3 = font.SysFont('Arial',80)
 
-ammo = 5
+ammo = 15
 reload = False
 while game:
     for e in event.get():
@@ -86,11 +92,12 @@ while game:
                 if ammo >= 0 and reload == False:
                     rocket.fire()
                     ammo -=1
+            
                     if ammo == 0 and reload == False:
                         reload = True
                         start_reload = timer()
 
-                        
+            
                 
                 
 
@@ -107,24 +114,35 @@ while game:
                 txt_reload = font1.render('Reload',True,(255,42,100))
                 window.blit(txt_reload,(200,400))
             else:
-                ammo = 5
+                ammo = 15
                 reload = False
-
-
 
         rocket.reset()
         rocket.update()
-        enemy.reset()
         asteroid.reset()
         monsters.draw(window)
         asteroids.draw(window)
         bullets.draw(window)
+        asteroid.update()
+
+
+        
 
         monsters.update()
         asteroids.update()
         bullets.update()
-        enemy.update()
-        asteroid.update()
+        if sprite.spritecollide(rocket,monsters,False):
+            finish = True
+            txt_lose_game = font3.render('You lose',True,(255,15,51))
+            window.blit(txt_lose_game,(200,150))
+        collide = sprite.groupcollide(monsters,bullets,True,True)
+        for c in collide:
+            score+=1
+            enemy = Enemy('m5\\shooter\\ufo.png',randint(0,win_width  - 100),0,100,80,randint(1,4))  
+            monsters.add(enemy)
+
+        
+            
 
     display.update()
     clock.tick(FPS)
