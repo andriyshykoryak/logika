@@ -46,10 +46,7 @@ class Bullet(GameSprite):
         self.rect.y -= self.speed
         if self.rect.y <0 :
             self.kill()
-        monsters_hit = sprite.spritecollide(self,monsters,True)
-        if monsters_hit:
-            global score
-            score = score + 1
+
 
 win_width,win_height = 700,700
 window = display.set_mode((win_width,win_height))
