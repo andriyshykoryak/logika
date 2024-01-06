@@ -8,6 +8,7 @@ from random import randint
 from time import time as timer
 lost = 0 
 score =0 
+finish = False
 class GameSprite(sprite.Sprite):
     def __init__(self,player_image,player_x,player_y,player_width,player_height,player_speed):
         super().__init__()
@@ -41,6 +42,15 @@ class Enemy(GameSprite):
             self.rect.y = 0
             self.rect.x = randint(0,win_width-100)
             lost=lost+1
+ 
+
+class Asteroid(GameSprite):
+    def update(self):
+        self.rect.y += self.speed
+        if self.rect.y > win_height:
+            self.rect.y = 0
+            self.rect.x = randint(0,win_width-100)
+
 class Bullet(GameSprite):
     def update(self):
         self.rect.y -= self.speed
@@ -60,12 +70,11 @@ for i in range(5):
     enemy = Enemy('m5\\shooter\\ufo.png',randint(0,win_width  - 100),0,100,80,randint(1,4))  
     monsters.add(enemy)
 for i in range(5):
-    asteroid = Enemy('m5\\shooter\\asteroid.png',randint(0,win_height),0,100,80,randint(1,4))
+    asteroid = Asteroid('m5\\shooter\\asteroid.png',randint(0,win_height),0,100,80,randint(1,4))
     asteroids.add(asteroid)
 game = True
 
 
-finish = False
 FPS = 60
 clock = time.Clock()
 mixer.init()
@@ -83,7 +92,18 @@ while game:
     for e in event.get():
         if e.type == QUIT:
             game = False
-
+        if e.type == KEYDOWN:
+            if e.key == K_q:
+                game = False
+            if e.key == K_e:
+                score = 10
+            if e.key == K_w:
+                for a in asteroids:
+                    a.kill()
+            if e.key == K_r:
+                for i in range(5):
+                    asteroid = Asteroid('m5\\shooter\\asteroid.png',randint(0,win_height),0,100,80,randint(1,4))
+                    asteroids.add(asteroid)
         if e.type == KEYDOWN:
             if e.key == K_SPACE:
                 if ammo >= 0 and reload == False:
@@ -121,10 +141,6 @@ while game:
         asteroids.draw(window)
         bullets.draw(window)
         asteroid.update()
-
-
-        
-
         monsters.update()
         asteroids.update()
         bullets.update()
@@ -141,6 +157,12 @@ while game:
             finish = True
             txt_win_game = font3.render('You win',True,(24,156,155))
             window.blit(txt_win_game,(250,500))
+        elif lost == 10:
+            finish = True
+            txt_lose_game = font3.render("You lose",True,(24,156,155))
+            window.blit(txt_lose_game,(250,500))
+            
+
     else:
         ammo=15
         finish = False
@@ -157,9 +179,8 @@ while game:
         for i in range(5):
             enemy = Enemy('m5\\shooter\\ufo.png',randint(0,win_width  - 100),0,100,80,randint(1,4))  
             monsters.add(enemy)
-        for i in range(5):
-            asteroid = Enemy('m5\\shooter\\asteroid.png',randint(0,win_height),0,100,80,randint(1,4))
-            asteroids.add(asteroid)
+ 
+
         
         
         time.delay(3000)  
@@ -170,3 +191,4 @@ while game:
     display.update()
     clock.tick(FPS)
     
+print(lost)
