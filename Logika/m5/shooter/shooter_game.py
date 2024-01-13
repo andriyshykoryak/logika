@@ -79,7 +79,7 @@ FPS = 60
 clock = time.Clock()
 mixer.init()
 mixer.music.load('m5\\shooter\\space.ogg')
-mixer.music.set_volume(0.05)
+mixer.music.set_volume(1)
 mixer.music.play()
 font.init()
 font1 = font.SysFont('Arial',36)
@@ -88,11 +88,25 @@ font3 = font.SysFont('Arial',80)
 
 ammo = 15
 reload = False
+round = 1
+best_result = round
+max_rounds = 4
 while game:
+   
     for e in event.get():
         if e.type == QUIT:
             game = False
+        
         if e.type == KEYDOWN:
+            if e.key == K_UP:
+                mixer_music.set_volume(1 + 0.25)
+            if e.key == K_DOWN:
+                mixer_music.set_volume(1 - 0.5)
+            if e.key == K_RIGHT:
+                mixer_music.set_volume(0)
+            
+        if e.type == KEYDOWN:
+             
             if e.key == K_q:
                 game = False
             if e.key == K_e:
@@ -122,19 +136,26 @@ while game:
         window.blit(background,(0,0))
         text_lose = font1.render(f'Пропущенно:{lost}',True,(255,255,22))
         text_score = font2.render(f'Рахунок:{score}',True,(255,255,22))
+        ammo_amount = font2.render(f'Патрони:{ammo}',True,(255,255,22))
+        round_txt = font2.render(f'Раунд: {best_result}',True,(255,255,22))
+        best_result_txt = font2.render(f'Найкращий результат: {round}  раунди',True,(255,255,22))
         window.blit(text_lose,(5,50))
         window.blit(text_score,(5,10))
+        window.blit(ammo_amount,(5,90))
+        window.blit(round_txt,(5,130))
+        window.blit(best_result_txt,(5,170))
         if reload == True:
             now_time = timer()
             delta = now_time - start_reload
             if delta < 3:
-                txt_reload = font1.render('Reload',True,(255,42,100))
-                window.blit(txt_reload,(200,400))
+                ammo_text = font2.render(f'Патрони:   Зачекайте!Йде перезарядка',True,(255,255,22))
+                window.blit(ammo_text,(5,90))
             else:
                 ammo = 15
                 reload = False
 
         rocket.reset()
+        
         rocket.update()
         asteroid.reset()
         monsters.draw(window)
@@ -145,29 +166,69 @@ while game:
         asteroids.update()
         bullets.update()
         if sprite.spritecollide(rocket,monsters,False):
+            
+            
             finish = True
             txt_lose_game = font3.render('You lose',True,(255,15,51))
             window.blit(txt_lose_game,(200,150))
+          
+            
         collide = sprite.groupcollide(monsters,bullets,True,True)
         for c in collide:
             score+=1
             enemy = Enemy('m5\\shooter\\ufo.png',randint(0,win_width  - 100),0,100,80,randint(1,4))  
             monsters.add(enemy)
+
+
+
         if score == 10:
-            finish = True
+            
             txt_win_game = font3.render('You win',True,(24,156,155))
             window.blit(txt_win_game,(250,500))
-        elif lost == 10:
-            finish = True
-            txt_lose_game = font3.render("You lose",True,(24,156,155))
-            window.blit(txt_lose_game,(250,500))
-            
+            time.delay(2000)
+            score = 0
+            round +=1
+            if round == 2:
+                ammo = 25
+                for i in range(7):
+                    enemy = Enemy('m5\\shooter\\ufo.png',randint(0,win_width  - 100),0,100,80,randint(1,3))  
+                    monsters.add(enemy)
+                if score == 15:
+                    
+                    time.delay(2000)
+                    txt_win_round_2 = font3.render('You win the second round',True,(24,156,155))
+                    window.blit(txt_win_round_2,(250,500))
+                    score = 0
+                    round +=1
+            if round == 3:
+                ammo = 30
+                for i in range(12):
+                    enemy = Enemy('m5\\shooter\\ufo.png',randint(0,win_width  - 100),0,100,80,randint(1,2))  
+                    monsters.add(enemy)
+                if round == 3 and score >= 20:
+                    finish = True
+                    txt_win_game = font3.render('You win', True, (24, 156, 155))
+                    window.blit(txt_win_game, (250, 500))
+                    round+=1
+            if round == 4:
+                ammo = 40
+                for i in range(15):
+                    enemy = Enemy('m5\\shooter\\ufo.png',randint(0,win_width  - 100),0,100,80,randint(1,2))  
+                    monsters.add(enemy)
+                if score == 35:
+                    round +=1
+            if max_rounds == round:
+                finish = True
+                txt_win_game = font3.render('You win', True, (24, 156, 155))
+                window.blit(txt_win_game, (250, 500))
+
 
     else:
-        ammo=15
-        finish = False
-        score = 0
-        lost = 0
+        if finish == True:
+            ammo=15
+            finish = False
+            score = 0
+            lost = 0
 
 
         for m in monsters:
@@ -191,4 +252,3 @@ while game:
     display.update()
     clock.tick(FPS)
     
-print(lost)
